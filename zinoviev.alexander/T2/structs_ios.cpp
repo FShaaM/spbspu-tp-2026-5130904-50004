@@ -1,5 +1,4 @@
 #include "structs_ios.hpp"
-#include <string>
 
 std::istream& zinoviev::operator>>(std::istream& in, const DelimiterIO&& dest)
 {
@@ -79,4 +78,21 @@ std::istream& zinoviev::operator>>(std::istream& in, const LabelIO&& dest)
     in.setstate(std::ios::failbit);
 
   return in;
+}
+
+zinoviev::IOguard::IOguard(std::basic_ios<char>& s)
+  : s_(s),
+  width_(s.width()),
+  fill_(s.fill()),
+  precision_(s.precision()),
+  fmt_(s.flags())
+{
+}
+
+zinoviev::IOguard::~IOguard()
+{
+  s_.width(width_);
+  s_.fill(fill_);
+  s_.precision(precision_);
+  s_.flags(fmt_);
 }
