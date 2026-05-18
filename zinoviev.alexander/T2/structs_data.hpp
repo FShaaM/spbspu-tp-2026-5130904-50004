@@ -1,13 +1,7 @@
 #ifndef STRUCTS_DATA_HPP
 #define STRUCTS_DATA_HPP
 
-#include <iostream>
 #include <string>
-#include <vector>
-#include <algorithm>
-#include <iterator>
-#include <iomanip>
-#include "structs_ios.hpp"
 
 namespace zinoviev
 {
@@ -16,9 +10,10 @@ namespace zinoviev
     double key1;
     unsigned long long key2;
     std::string key3;
-  };
+    bool valid;
 
-  std::istream& operator>>(std::istream& in, DataStruct& dest);
-  std::ostream& operator<<(std::ostream& out, const DataStruct& src);
+    DataStruct() : key1(0.0), key2(0), key3(), valid(false) {}
+  };
 }
+
 #endif

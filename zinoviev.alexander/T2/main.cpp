@@ -1,31 +1,27 @@
-#include "structs_ios.hpp"
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <iterator>
+#include <limits>
 #include "structs_data.hpp"
+#include "structs_ios.hpp"
 
 int main()
 {
   using namespace zinoviev;
+
+  std::vector<DataStruct> raw;
+  std::copy(std::istream_iterator<DataStruct>(std::cin),
+        std::istream_iterator<DataStruct>(),
+        std::back_inserter(raw));
+
   std::vector<DataStruct> data;
+  std::copy_if(raw.begin(), raw.end(),
+         std::back_inserter(data),
+         [](const DataStruct& ds) { return ds.valid; });
 
-  std::copy(
-    std::istream_iterator<DataStruct>{std::cin},
-    std::istream_iterator<DataStruct>{},
-    std::back_inserter(data)
-  );
+  std::sort(data.begin(), data.end());
 
-  std::sort(data.begin(), data.end(),
-    [](const DataStruct& a, const DataStruct& b)
-    {
-      if (a.key1 != b.key1)
-        return a.key1 < b.key1;
-      if (a.key2 != b.key2)
-        return a.key2 < b.key2;
-      return a.key3.size() < b.key3.size();
-    }
-  );
-
-  std::copy(
-    data.begin(),
-    data.end(),
-    std::ostream_iterator<DataStruct>(std::cout, "\n")
-  );
+  std::copy(data.begin(), data.end(),
+        std::ostream_iterator<DataStruct>(std::cout, "\n"));
 }
