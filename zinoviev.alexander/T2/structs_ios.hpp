@@ -29,7 +29,7 @@ namespace zinoviev
   {
     std::string line;
   };
-  
+
   struct LabelIO
   {
     std::string expected;
