@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include "structs_data.hpp"
 
 namespace zinoviev
 {
