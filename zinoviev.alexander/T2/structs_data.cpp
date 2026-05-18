@@ -65,7 +65,7 @@ std::ostream& zinoviev::operator<<(std::ostream& out, const DataStruct& src)
   if (!sentry)
     return out;
 
-  IOguard guard(out);
+  IOGuard guard(out);
 
   out << "(:key1 "
     << std::fixed << std::setprecision(1) << src.key1 << "d"
