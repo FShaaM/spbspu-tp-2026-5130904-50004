@@ -1,5 +1,6 @@
 #include "structs_data.hpp"
 #include "structs_ios.hpp"
+#include <iomanip>
 
 std::istream& zinoviev::operator>>(std::istream& in, DataStruct& dest)
 {
