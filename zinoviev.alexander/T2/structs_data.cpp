@@ -8,7 +8,6 @@ namespace zinoviev
   std::istream& operator>>(std::istream& in, DataStruct& dest)
   {
     dest.valid = false;
-    std::streampos start_pos = in.tellg();
 
     std::istream::sentry sentry(in);
     if (!sentry)
@@ -41,18 +40,21 @@ namespace zinoviev
       {
         if (hasKey1) { ok = false; break; }
         in >> DoubleLitIO{ input.key1 };
+        if (!in) { ok = false; break; }
         hasKey1 = true;
       }
       else if (name == "key2")
       {
         if (hasKey2) { ok = false; break; }
         in >> UllLitIO{ input.key2 };
+        if (!in) { ok = false; break; }
         hasKey2 = true;
       }
       else if (name == "key3")
       {
         if (hasKey3) { ok = false; break; }
         in >> StringIO{ input.key3 };
+        if (!in) { ok = false; break; }
         hasKey3 = true;
       }
       else
@@ -61,7 +63,6 @@ namespace zinoviev
         break;
       }
 
-      if (!in) { ok = false; break; }
       in >> DelimiterIO{ ':' };
       if (!in) { ok = false; break; }
     }
@@ -74,7 +75,6 @@ namespace zinoviev
     }
 
     in.clear();
-    in.seekg(start_pos);
     char c;
     while (in.get(c) && c != ')');
     if (in) in.clear();
