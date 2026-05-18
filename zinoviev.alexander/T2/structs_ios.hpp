@@ -38,7 +38,7 @@ namespace zinoviev
   std::istream& operator>>(std::istream& in, const DelimiterIO&& dest);
   std::istream& operator>>(std::istream& in, const DoubleLitIO&& dest);
   std::istream& operator>>(std::istream& in, const UllLitIO&& dest);
-  std::istream& operator>>(std::istream& in, const StringIO&& dest);
+  std::istream& operator>>(std::istream& in, StringIO&& dest);
   std::istream& operator>>(std::istream& in, const LabelIO&& dest);
 
 }
