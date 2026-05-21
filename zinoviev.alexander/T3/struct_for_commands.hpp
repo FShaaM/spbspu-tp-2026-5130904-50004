@@ -42,6 +42,21 @@ namespace zinoviev
       return acc + ((p.points.size() == target) ? getArea(p) : 0.0);
     }
   };
-}
 
+  struct AreaLess
+  {
+    bool operator()(const Polygon& a, const Polygon& b) const
+    {
+      return getArea(a) < getArea(b);
+    }
+  };
+
+  struct VertexesLess
+  {
+    bool operator()(const Polygon& a, const Polygon& b) const
+    {
+      return a.points.size() < b.points.size();
+    }
+  };
+}
 #endif

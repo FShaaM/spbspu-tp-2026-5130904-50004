@@ -6,6 +6,8 @@
 namespace zinoviev
 {
   double getArea(const Polygon& p);
-  void area(const std::vector<Polygon>& p, std::istream& in, std::ostream&);
+  void area(const std::vector<Polygon>& p, std::istream& in, std::ostream& out);
+  void min(const std::vector<Polygon>& p, std::istream& in, std::ostream& out);
+  void max(const std::vector<Polygon>& p, std::istream& in, std::ostream& out);
 }
 #endif
