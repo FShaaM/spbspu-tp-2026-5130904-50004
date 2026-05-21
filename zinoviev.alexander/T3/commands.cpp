@@ -1,6 +1,9 @@
 #include <string>
+#include <numeric>
+#include <iomanip>
 #include "commands.hpp"
 #include "struct_for_reading.hpp"
+#include "structs_for_commands.hpp"
 
 namespace zinoviev
 {
@@ -15,12 +18,17 @@ namespace zinoviev
     return getArea(p, i + 1, acc + term);
   }
 
+  double getArea(const Polygon& p)
+  {
+    return getArea(p, 0, 0.0);
+  }
+
   void area(const std::vector<Polygon>& p, std::istream& in, std::ostream& out)
   {
     if (!in)
       return;
 
-    IOGuard g;
+    IOGuard g(in);
 
     std::string cmd;
     if (!(in >> cmd))
@@ -31,15 +39,33 @@ namespace zinoviev
 
     if (cmd == "EVEN")
     {
+      if (p.empty()) {
+        out << "<INVALID COMMAND>\n";
+        return;
+      }
 
+      double sum = std::accumulate(p.begin(), p.end(), 0.0, EvenAdder());
+      out << std::fixed << std::setprecision(1) << sum << '\n';
     }
     else if (cmd == "ODD")
     {
+      if (p.empty()) {
+        out << "<INVALID COMMAND>\n";
+        return;
+      }
 
+      double sum = std::accumulate(p.begin(), p.end(), 0.0, OddAdder());
+      out << std::fixed << std::setprecision(1) << sum << '\n';
     }
     else if (cmd == "MEAN")
     {
-
+      if (p.empty()) {
+        out << "<INVALID COMMAND>\n";
+        return;
+      }
+      double sum = std::accumulate(p.begin(), p.end(), 0.0, AllAdder());
+      double mean = sum / p.size();
+      out << std::fixed << std::setprecision(1) << mean << '\n';
     }
     else
     {
@@ -53,6 +79,16 @@ namespace zinoviev
         out << "<INVALID COMMAND>\n";
         return;
       }
+
+      if (top < 3)
+      {
+        out << "<INVALID COMMAND>\n";
+        return;
+      }
+
+      FixedAdder adder(static_cast<size_t>(top));
+      double sum = std::accumulate(p.begin(), p.end(), 0.0, adder);
+      out << std::fixed << std::setprecision(1) << sum << '\n';
     }
 
   }
