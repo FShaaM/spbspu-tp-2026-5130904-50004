@@ -3,14 +3,16 @@
 
 #include <vector>
 
-struct Point
+namespace zinoviev
 {
-  int x, y;
-};
+  struct Point
+  {
+    int x, y;
+  };
 
-struct Polygon
-{
-  std::vector< Point > points;
-};
-
+  struct Polygon
+  {
+    std::vector< Point > points;
+  };
+}
 #endif
