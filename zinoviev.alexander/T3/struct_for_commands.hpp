@@ -58,5 +58,36 @@ namespace zinoviev
       return a.points.size() < b.points.size();
     }
   };
+
+  struct EvenCount
+  {
+    int operator()(int acc, const Polygon& p) const
+    {
+      return acc + ((p.points.size() % 2 == 0) ? 1 : 0);
+    }
+  };
+
+  struct OddCount
+  {
+    int operator()(int acc, const Polygon& p) const
+    {
+      return acc + ((p.points.size() % 2 == 1) ? 1 : 0);
+    }
+  };
+
+  struct FixedCount
+  {
+    size_t target;
+
+    explicit FixedCount(size_t t) :
+      target(t)
+    {
+    }
+
+    int operator()(int acc, const Polygon& p) const
+    {
+      return acc + ((p.points.size() == target) ? 1 : 0);
+    }
+  };
 }
 #endif
