@@ -1,5 +1,8 @@
 #include <fstream>
 #include <iostream>
+#include <vector>
+#include "shapes.hpp"
+#include "struct_for_reading.hpp"
 
 int main(int argc, const char* argv[])
 {
@@ -15,4 +18,7 @@ int main(int argc, const char* argv[])
     std::cout << "Bad filename\n";
     return 1;
   }
+
+  std::vector<zinoviev::Polygon> polygons;
+  zinoviev::readAll(file, polygons);
 }

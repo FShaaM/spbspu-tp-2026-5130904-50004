@@ -25,6 +25,7 @@ namespace zinoviev
   };
 
   std::istream& operator>>(std::istream& in, const ExpRead&& dest);
+  void readAll(std::istream& in, std::vector<Polygon>& polygons);
 }
 
 #endif

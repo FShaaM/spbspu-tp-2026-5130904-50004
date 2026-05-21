@@ -1,4 +1,5 @@
 #include "struct_for_reading.hpp"
+#include <limits>
 
 namespace zinoviev
 {
@@ -32,5 +33,22 @@ namespace zinoviev
       in.setstate(std::ios::failbit);
 
     return in;
+  }
+
+  void readAll(std::istream& in, std::vector<Polygon>& polygons)
+  {
+    Polygon p;
+    if (in >> p)
+    {
+      polygons.push_back(p);
+      readAll(in, polygons);
+    }
+    else if (!in.eof())
+    {
+      in.clear();
+      in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+      readAll(in, polygons);
+    }
+    return;
   }
 }
