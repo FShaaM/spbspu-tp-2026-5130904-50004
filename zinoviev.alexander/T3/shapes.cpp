@@ -60,8 +60,9 @@ namespace zinoviev
 
     if (in)
     {
+      in >> std::ws;
       int next = in.peek();
-      if (next != EOF && next != ' ' && next != '\n' && next != '\t')
+      if (next != EOF && next != '\n' && next != '\t')
         in.setstate(std::ios::failbit);
     }
 
