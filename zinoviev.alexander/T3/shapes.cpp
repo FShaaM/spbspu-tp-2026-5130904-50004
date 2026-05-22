@@ -40,7 +40,6 @@ namespace zinoviev
     if (!sentry)
       return in;
 
-    IOGuard guard(in);
     int n = 0;
     if (!in >> n || n < 3)
     {
