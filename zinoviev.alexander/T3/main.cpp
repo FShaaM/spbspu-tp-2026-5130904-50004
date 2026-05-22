@@ -4,6 +4,7 @@
 #include <map>
 #include <string>
 #include <functional>
+#include <limits>
 #include "shapes.hpp"
 #include "struct_for_reading.hpp"
 #include "commands.hpp"
@@ -33,4 +34,6 @@ int main(int argc, const char* argv[])
   cmd["COUNT"] = std::bind(zinoviev::count, std::cref(polygons), std::ref(std::cin), std::ref(std::cout));
   cmd["MAXSEQ"] = std::bind(zinoviev::maxseq, std::cref(polygons), std::ref(std::cin), std::ref(std::cout));
   cmd["INFRAME"] = std::bind(zinoviev::inframe, std::cref(polygons), std::ref(std::cin), std::ref(std::cout));
+
+  zinoviev::processCommands(std::cin, std::cout, cmd);
 }

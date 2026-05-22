@@ -1,8 +1,21 @@
+#include <functional>
 #include "shapes.hpp"
 #include "struct_for_reading.hpp"
 
 namespace zinoviev
 {
+  bool Point::operator==(const Point& other) const
+  {
+    return x == other.x && y == other.y;
+  }
+
+  bool Polygon::operator==(const Polygon& other) const
+  {
+    if (other.points.size() != points.size())
+      return false;
+    return std::equal(points.cbegin(), points.cend(), other.points.cbegin());
+  }
+
   std::istream& operator>>(std::istream& in, Point& dest)
   {
     std::istream::sentry sentry(in);

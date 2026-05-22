@@ -4,6 +4,8 @@
 #include <functional>
 #include <iomanip>
 #include <iterator>
+#include <map>
+#include <limits>
 #include "commands.hpp"
 #include "struct_for_reading.hpp"
 #include "structs_for_commands.hpp"
@@ -72,12 +74,14 @@ namespace zinoviev
       catch (...)
       {
         out << "<INVALID COMMAND>\n";
+        in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         return;
       }
 
       if (tops < 3)
       {
         out << "<INVALID COMMAND>\n";
+        in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         return;
       }
 
@@ -96,9 +100,16 @@ namespace zinoviev
     IOGuard g(in);
 
     std::string cmd;
-    if (!(in >> cmd) || p.empty())
+    if (!(in >> cmd))
     {
       out << "<INVALID COMMAND>\n";
+      return;
+    }
+
+    if (p.empty())
+    {
+      out << "<INVALID COMMAND>\n";
+      in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
       return;
     }
 
@@ -117,6 +128,7 @@ namespace zinoviev
     else
     {
       out << "<INVALID COMMAND>\n";
+      in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
       return;
     }
   }
@@ -129,9 +141,16 @@ namespace zinoviev
     IOGuard g(in);
 
     std::string cmd;
-    if (!(in >> cmd) || p.empty())
+    if (!(in >> cmd))
     {
       out << "<INVALID COMMAND>\n";
+      return;
+    }
+
+    if (p.empty())
+    {
+      out << "<INVALID COMMAND>\n";
+      in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
       return;
     }
 
@@ -150,6 +169,7 @@ namespace zinoviev
     else
     {
       out << "<INVALID COMMAND>\n";
+      in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
       return;
     }
   }
@@ -162,9 +182,16 @@ namespace zinoviev
     IOGuard g(in);
 
     std::string cmd;
-    if (!(in >> cmd) || p.empty())
+    if (!(in >> cmd))
     {
       out << "<INVALID COMMAND>\n";
+      return;
+    }
+
+    if (p.empty())
+    {
+      out << "<INVALID COMMAND>\n";
+      in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
       return;
     }
 
@@ -188,12 +215,14 @@ namespace zinoviev
       catch (...)
       {
         out << "<INVALID COMMAND>\n";
+        in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         return;
       }
 
       if (tops < 3)
       {
         out << "<INVALID COMMAND>\n";
+        in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         return;
       }
 
@@ -236,6 +265,7 @@ namespace zinoviev
     if (!(in >> target))
     {
       out << "<INVALID COMMAND>\n";
+      in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
       return;
     }
 
@@ -276,6 +306,7 @@ namespace zinoviev
     if (!(in >> target))
     {
       out << "<INVALID COMMAND>\n";
+      in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
       return;
     }
 
@@ -300,5 +331,33 @@ namespace zinoviev
       out << "<FALSE>\n";
 
     return;
+  }
+
+  void processCommands(std::istream& in, std::ostream& out,
+    const std::map<std::string, std::function<void()>>& cmdMap)
+  {
+    std::string cmd;
+    if (!(in >> cmd))
+    {
+      if (in.eof())
+        return;
+
+      in.clear();
+      in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+      processCommands(in, out, cmdMap);
+      return;
+    }
+
+    auto it = cmdMap.find(cmd);
+    if (it == cmdMap.end())
+    {
+      out << "<INVALID COMMAND>\n";
+      in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+      processCommands(in, out, cmdMap);
+      return;
+    }
+
+    it->second();
+    processCommands(in, out, cmdMap);
   }
 }

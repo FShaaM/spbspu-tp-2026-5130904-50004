@@ -9,8 +9,7 @@ namespace zinoviev
     width_(s.width()),
     flags_(s.flags()),
     fill_(s.fill())
-  {
-  }
+  {}
 
   IOGuard::~IOGuard()
   {

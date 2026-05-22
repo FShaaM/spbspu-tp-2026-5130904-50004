@@ -61,17 +61,17 @@ namespace zinoviev
 
   struct EvenCount
   {
-    int operator()(int acc, const Polygon& p) const
+    int operator()(const Polygon& p) const
     {
-      return acc + ((p.points.size() % 2 == 0) ? 1 : 0);
+      return p.points.size() % 2 == 0;
     }
   };
 
   struct OddCount
   {
-    int operator()(int acc, const Polygon& p) const
+    int operator()(const Polygon& p) const
     {
-      return acc + ((p.points.size() % 2 == 1) ? 1 : 0);
+      return p.points.size() % 2 == 1;
     }
   };
 
@@ -84,9 +84,9 @@ namespace zinoviev
     {
     }
 
-    int operator()(int acc, const Polygon& p) const
+    int operator()(const Polygon& p) const
     {
-      return acc + ((p.points.size() == target) ? 1 : 0);
+      return p.points.size() == target;
     }
   };
 
