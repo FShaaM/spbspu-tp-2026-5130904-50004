@@ -89,5 +89,26 @@ namespace zinoviev
       return acc + ((p.points.size() == target) ? 1 : 0);
     }
   };
+
+  struct PointInFrame
+  {
+    int x_min;
+    int x_max;
+    int y_min;
+    int y_max;
+
+    PointInFrame(int min_x, int max_x, int min_y, int max_y) :
+      x_min(min_x),
+      x_max(max_x),
+      y_min(min_y),
+      y_max(max_y)
+    {}
+
+    bool operator()(const Point& pt) const
+    {
+      return pt.x >= x_min && pt.x <= x_max && pt.y >= y_min && pt.y <= y_max;
+    }
+  };
 }
+
 #endif

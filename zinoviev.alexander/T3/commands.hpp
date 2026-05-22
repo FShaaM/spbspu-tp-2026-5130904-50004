@@ -11,5 +11,6 @@ namespace zinoviev
   void max(const std::vector<Polygon>& p, std::istream& in, std::ostream& out);
   void count(const std::vector<Polygon>& p, std::istream& in, std::ostream& out);
   void maxseq(const std::vector<Polygon>& p, std::istream& in, std::ostream& out);
+  void inframe(const std::vector<Polygon>& p, std::istream& in, std::ostream& out);
 }
 #endif

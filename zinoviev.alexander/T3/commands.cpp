@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <functional>
 #include <iomanip>
+#include <iterator>
 #include "commands.hpp"
 #include "struct_for_reading.hpp"
 #include "structs_for_commands.hpp"
@@ -240,5 +241,64 @@ namespace zinoviev
 
     size_t seq = findMaxSeq(p.cbegin(), p.cend(), target);
     out << seq << "\n";
+  }
+
+  void findFrame(const std::vector<Polygon>& p, size_t id_polydon, size_t id_point,
+    int& x_min, int& x_max, int& y_min, int& y_max)
+  {
+    if (id_polydon == p.size())
+      return;
+    if (id_point == p[id_polydon].points.size())
+    {
+      findFrame(p, id_polydon + 1, 0, x_min, x_max, y_min, y_max);
+      return;
+    }
+
+    int p_x = p[id_polydon].points[id_point].x;
+    int p_y = p[id_polydon].points[id_point].y;
+
+    x_min = std::min(x_min, p_x);
+    x_max = std::max(x_max, p_x);
+    y_min = std::min(y_min, p_y);
+    y_max = std::max(y_max, p_y);
+
+    findFrame(p, id_polydon, id_point + 1, x_min, x_max, y_min, y_max);
+  }
+
+  void inframe(const std::vector<Polygon>& p, std::istream& in, std::ostream& out)
+  {
+    if (!in)
+      return;
+
+    IOGuard g(in);
+
+    Polygon target;
+    if (!(in >> target))
+    {
+      out << "<INVALID COMMAND>\n";
+      return;
+    }
+
+    if (p.empty())
+    {
+      out << "<FALSE>\n";
+      return;
+    }
+
+    int x_min = p[0].points[0].x;
+    int x_max = p[0].points[0].x;
+    int y_min = p[0].points[0].y;
+    int y_max = p[0].points[0].y;
+    findFrame(p, 0, 0, x_min, x_max, y_min, y_max);
+
+    PointInFrame frame(x_min, x_max, y_min, y_max);
+    bool res = std::all_of(target.points.cbegin(), target.points.cend(), frame);
+
+    if (res)
+      out << "<TRUE>\n";
+    else
+      out << "<FALSE>\n";
+
+    return;
   }
 }
