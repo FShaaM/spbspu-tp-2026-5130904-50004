@@ -58,6 +58,13 @@ namespace zinoviev
     else
       in.setstate(std::ios::failbit);
 
+    if (in)
+    {
+      int next = in.peek();
+      if (next != EOF && next != ' ' && next != '\n' && next != '\t')
+        in.setstate(std::ios::failbit);
+    }
+
     return in;
   }
 }
