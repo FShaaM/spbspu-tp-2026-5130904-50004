@@ -19,6 +19,11 @@ namespace zinoviev
     s_.fill(fill_);
   }
 
+  bool isSpace(char c)
+  {
+    return c == ' ';
+  }
+
   std::istream& operator>>(std::istream& in, const ExpRead&& dest)
   {
     std::istream::sentry sentry(in);

@@ -24,6 +24,7 @@ namespace zinoviev
     char expected;
   };
 
+  bool isSpace(char c);
   std::istream& operator>>(std::istream& in, const ExpRead&& dest);
   void readAll(std::istream& in, std::vector<Polygon>& polygons);
 }

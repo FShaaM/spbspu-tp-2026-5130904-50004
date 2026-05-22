@@ -263,6 +263,14 @@ namespace zinoviev
       return;
     }
 
+    std::string rest;
+    std::getline(in, rest);
+    if (!std::all_of(rest.begin(), rest.end(), isSpace))
+    {
+      out << "<INVALID COMMAND>\n";
+      return;
+    }
+
     size_t seq = findMaxSeq(p.cbegin(), p.cend(), target);
     out << seq << "\n";
   }
@@ -301,6 +309,14 @@ namespace zinoviev
     {
       out << "<INVALID COMMAND>\n";
       in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+      return;
+    }
+
+    std::string rest;
+    std::getline(in, rest);
+    if (!std::all_of(rest.begin(), rest.end(), isSpace))
+    {
+      out << "<INVALID COMMAND>\n";
       return;
     }
 
