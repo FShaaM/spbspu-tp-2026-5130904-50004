@@ -1,6 +1,7 @@
 #include <string>
 #include <numeric>
 #include <algorithm>
+#include <functional>
 #include <iomanip>
 #include "commands.hpp"
 #include "struct_for_reading.hpp"
@@ -200,5 +201,44 @@ namespace zinoviev
       out << cnt << '\n';
     }
 
+  }
+
+  size_t findMaxSeq(std::vector<Polygon>::const_iterator begin,
+    std::vector<Polygon>::const_iterator end, const Polygon& p)
+  {
+    if (begin == end)
+      return 0;
+
+    auto it = std::find_if(begin, end,
+      std::bind(std::equal_to<Polygon>(), p, std::placeholders::_1));
+
+    if (it == end)
+      return 0;
+
+    auto next = std::find_if_not(it, end,
+      std::bind(std::equal_to<Polygon>(), p, std::placeholders::_1));
+
+    size_t len = next - it;
+    size_t nextlen = findMaxSeq(next, end, p);
+
+    return std::max(len, nextlen);
+  }
+
+  void maxseq(const std::vector<Polygon>& p, std::istream& in, std::ostream& out)
+  {
+    if (!in)
+      return;
+
+    IOGuard g(in);
+
+    Polygon target;
+    if (!(in >> target))
+    {
+      out << "<INVALID COMMAND>\n";
+      return;
+    }
+
+    size_t seq = findMaxSeq(p.cbegin(), p.cend(), target);
+    out << seq << "\n";
   }
 }
