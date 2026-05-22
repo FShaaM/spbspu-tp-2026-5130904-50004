@@ -188,13 +188,6 @@ namespace zinoviev
       return;
     }
 
-    if (p.empty())
-    {
-      out << "<INVALID COMMAND>\n";
-      in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-      return;
-    }
-
     if (cmd == "EVEN")
     {
       size_t cnt = std::count_if(p.begin(), p.end(), EvenCount());
