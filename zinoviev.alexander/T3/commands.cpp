@@ -85,6 +85,7 @@ namespace zinoviev
         return;
       }
 
+      in >> std::ws;
       FixedAdder adder(tops);
       double sum = std::accumulate(p.begin(), p.end(), 0.0, adder);
       out << std::fixed << std::setprecision(1) << sum << '\n';

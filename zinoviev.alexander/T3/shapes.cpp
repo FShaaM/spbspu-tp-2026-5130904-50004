@@ -43,7 +43,8 @@ namespace zinoviev
 
     int n = 0;
     in >> n;
-    if (!in || n < 3) {
+    if (!in || n < 3)
+    {
         in.setstate(std::ios::failbit);
         return in;
     }
@@ -57,14 +58,6 @@ namespace zinoviev
       std::swap(dest.points, v);
     else
       in.setstate(std::ios::failbit);
-
-    if (in)
-    {
-      in >> std::ws;
-      int next = in.peek();
-      if (next != EOF && next != '\n' && next != '\t')
-        in.setstate(std::ios::failbit);
-    }
 
     return in;
   }

@@ -45,7 +45,8 @@ namespace zinoviev
     else if (!in.eof())
     {
       in.clear();
-      in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+      std::string trash;
+      std::getline(in, trash);
       readAll(in, polygons);
     }
     return;
