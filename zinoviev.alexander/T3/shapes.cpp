@@ -1,3 +1,6 @@
+#include <algorithm>
+#include <iterator>
+#include <numeric>
 #include <functional>
 #include "shapes.hpp"
 #include "struct_for_reading.hpp"
@@ -49,7 +52,7 @@ namespace zinoviev
     v.reserve(n);
     std::copy_n(std::istream_iterator<Point>(in), n, std::back_inserter(v));
 
-    if (in && v.size() == n)
+    if (in && v.size() == static_cast<size_t>(n))
       std::swap(dest.points, v);
     else
       in.setstate(std::ios::failbit);
