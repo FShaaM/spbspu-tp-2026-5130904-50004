@@ -330,6 +330,7 @@ namespace zinoviev
     const std::map<std::string, std::function<void()>>& cmdMap)
   {
     std::string cmd;
+
     if (!(in >> cmd))
     {
       if (in.eof())

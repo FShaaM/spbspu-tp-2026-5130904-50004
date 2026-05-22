@@ -25,6 +25,7 @@ namespace zinoviev
     if (!sentry)
       return in;
 
+
     Point p{ 0,0 };
     in >> ExpRead{ '(' } >> p.x >> ExpRead{ ';' } >> p.y >> ExpRead{ ')' };
 
@@ -41,11 +42,12 @@ namespace zinoviev
       return in;
 
     int n = 0;
-    if (!in >> n || n < 3)
-    {
-      in.setstate(std::ios::failbit);
-      return in;
+    in >> n;
+    if (!in || n < 3) {
+        in.setstate(std::ios::failbit);
+        return in;
     }
+
 
     std::vector<Point> v;
     v.reserve(n);
